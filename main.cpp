@@ -2,47 +2,29 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickView>
+
 #include <Client>
-#include <Processor>
-#include <RingBuffer>
+#include "grainprocessor.h"
+#include "instrument.h"
 
+int main( int argc, char *argv[] ) {
+    QCoreApplication::setAttribute( Qt::AA_EnableHighDpiScaling );
 
-class MyProcessor : public QtJack::Processor {
-public:
-    MyProcessor( QtJack::Client& client ) : Processor( client )  {
-
-    }
-
-    void process( int samples ) {
-
-
-    }
-
-
-};
-
-
-int main(int argc, char *argv[])
-{
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    QGuiApplication app(argc, argv);
-    app.setWindowIcon(QIcon(":img/grain.png"));
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
+    QGuiApplication app( argc, argv );
+    app.setWindowIcon( QIcon( ":img/grain.png" ) );
 
     QtJack::Client client;
     client.connectToServer( "Grain" );
-    MyProcessor processor( client );
+    GrainProcessor processor( client );
     client.setMainProcessor( &processor );
-    client.activate();
+    client.activate( );
+    //client.connect(processor.outL, client.portByName("system:playback_1"));       // Conexion automatica con la salida del sistema
 
-
-    // Connect automatically to system playback.
-    //client.connect(processor.outL, client.portByName("system:playback_1"));
+    QQmlApplicationEngine engine;
+    engine.rootContext( )->setContextProperty( "Instrument", Instrument::instance( ) );
+    engine.load( QUrl( QStringLiteral( "qrc:/main.qml" ) ) );
+    if ( engine.rootObjects( ).isEmpty( ) )
+        return -1;
 
     return app.exec( );
 }
