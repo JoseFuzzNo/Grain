@@ -1,3 +1,6 @@
 [submodule "qtjack"]
         path = qtjack
         url = https://github.com/jacob3141/qtjack.git
+[submodule "audiocontrols"]
+	path = audiocontrols
+	url = https://github.com/JoseFuzzNo/AudioControls.git

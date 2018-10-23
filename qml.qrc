@@ -3,5 +3,18 @@
         <file>main.qml</file>
         <file>img/grain.svg</file>
         <file>img/grain.png</file>
+        <file>audiocontrols/Bang.qml</file>
+        <file>audiocontrols/Keyboard.qml</file>
+        <file>audiocontrols/Knob.qml</file>
+        <file>audiocontrols/LICENSE</file>
+        <file>audiocontrols/Matrix.qml</file>
+        <file>audiocontrols/Number.qml</file>
+        <file>audiocontrols/Number2.qml</file>
+        <file>audiocontrols/qmldir</file>
+        <file>audiocontrols/Slider.qml</file>
+        <file>audiocontrols/Symbol.qml</file>
+        <file>audiocontrols/TextButton.qml</file>
+        <file>audiocontrols/Toggle.qml</file>
+        <file>audiocontrols/VuMeter.qml</file>
     </qresource>
 </RCC>
