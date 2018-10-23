@@ -1,0 +1,3 @@
+[submodule "qtjack"]
+        path = qtjack
+        url = https://github.com/jacob3141/qtjack.git
