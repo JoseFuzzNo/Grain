@@ -16,5 +16,13 @@
         <file>audiocontrols/TextButton.qml</file>
         <file>audiocontrols/Toggle.qml</file>
         <file>audiocontrols/VuMeter.qml</file>
+        <file>granular/ADSR.qml</file>
+        <file>granular/Filter.qml</file>
+        <file>granular/Glide.qml</file>
+        <file>granular/Grain.qml</file>
+        <file>granular/Granular.qml</file>
+        <file>granular/Module.qml</file>
+        <file>granular/SubModule.qml</file>
+        <file>granular/Vibrato.qml</file>
     </qresource>
 </RCC>

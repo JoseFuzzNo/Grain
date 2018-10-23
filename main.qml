@@ -3,31 +3,30 @@ import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 
 import "audiocontrols" as AudioControls
-
+import "granular" as Granular
 
 Window {
     id: root
-
     visible: true
-    width: 800
+    width: 440
     height: 300
     color: "#333333"
-
     title: qsTr("Grain")
-    ColumnLayout {
-        anchors.centerIn: parent
-        AudioControls.Knob {
-            id: knob
-            size: 40
-            decimals: 1
-            units: "dB"
-            curve: 1
-            to: 10
 
-            value: 1
-            onValueChanged: Instrument.outputVolume = value
+    minimumWidth: 440
+    minimumHeight:  250
+
+    Granular.Granular {
+        x: 10
+        y: 10
+
+        onStatusChanged: {
+            if ( message === "master" ) {
+                Instrument.outputVolume = value;
+            }
+
+            console.log( message + " " + value.toFixed( 2 ) )
         }
-
     }
 
     AudioControls.Slider {
@@ -40,8 +39,13 @@ Window {
         decimals: 1
 
         anchors.bottom: parent.bottom
-        anchors.right: parent.right
-    }
+        anchors.left: parent.left
+        anchors.bottomMargin: 10
+        anchors.leftMargin: 10
 
+        color: "orange"
+        secondColor: "#444444"
+        thirdColor: "yellow"
+    }
 
 }
