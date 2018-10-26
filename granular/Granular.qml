@@ -11,7 +11,8 @@ Module {
     title: qsTr( "GRAIN" )
     //titleCheckEnabled: true
 
-    property variant grain: []
+    property var grain: []
+    property double initPoint: 0
 
     function cleanUrl( url ) {
         return url.replace(/(^\w+:|^)\/\//, '');
@@ -78,6 +79,7 @@ Module {
         height: 55
         showValue: false
         stepSize: 0.01
+        value: initPoint
         onValueChanged: {
             statusChanged( "initPoint", value );
         }

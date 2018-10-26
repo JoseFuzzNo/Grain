@@ -1,4 +1,4 @@
-QT += quick svg
+QT += quick svg multimedia
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -14,8 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    grainprocessor.cpp \
-    instrument.cpp
+    instrument.cpp \
+    grainprocessor.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,8 +34,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 include(Grain.pri)
 
 HEADERS += \
-    grainprocessor.h \
-    instrument.h
+    instrument.h \
+    grainprocessor.h
 
 OTHER_FILES = \
     README.md \

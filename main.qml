@@ -20,12 +20,19 @@ Window {
         x: 10
         y: 10
 
+        grain: Instrument.grainBuffer
+
         onStatusChanged: {
-            if ( message === "master" ) {
+            switch ( message ) {
+            case "master":
                 Instrument.outputVolume = value;
+                break;
+            case "soundFile":
+                Instrument.soundFile = value;
+                break;
             }
 
-            console.log( message + " " + value.toFixed( 2 ) )
+            //console.log( message + " " + value )
         }
     }
 
@@ -42,6 +49,24 @@ Window {
         anchors.left: parent.left
         anchors.bottomMargin: 10
         anchors.leftMargin: 10
+
+        color: "orange"
+        secondColor: "#444444"
+        thirdColor: "yellow"
+    }
+    AudioControls.Slider {
+        mouseEnabled: false
+        value: Instrument.initPoint
+        from: 0
+        to: 1
+        label: "Posicion:"
+        units: "%"
+        decimals: 1
+
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.bottomMargin: 10
+        anchors.rightMargin: 10
 
         color: "orange"
         secondColor: "#444444"
