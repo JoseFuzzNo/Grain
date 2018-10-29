@@ -16,6 +16,7 @@ SOURCES += \
         main.cpp \
     instrument.cpp \
     grainprocessor.cpp
+INCLUDEPATH += engine
 
 RESOURCES += qml.qrc
 
@@ -35,7 +36,9 @@ include(Grain.pri)
 
 HEADERS += \
     instrument.h \
-    grainprocessor.h
+    grainprocessor.h \
+    engine/oscillator.h \
+    engine/sineoscillator.h
 
 OTHER_FILES = \
     README.md \

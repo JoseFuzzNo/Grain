@@ -20,7 +20,7 @@ Window {
         x: 10
         y: 10
 
-        grain: Instrument.grainBuffer
+        grain: Instrument.buffer
 
         onStatusChanged: {
             switch ( message ) {
@@ -30,12 +30,14 @@ Window {
             case "soundFile":
                 Instrument.soundFile = value;
                 break;
+            case "gain":
+                Instrument.gain = value;
+                break;
             }
 
             //console.log( message + " " + value )
         }
     }
-
     AudioControls.Slider {
         mouseEnabled: false
         value: Instrument.cpuLoad
@@ -56,7 +58,8 @@ Window {
     }
     AudioControls.Slider {
         mouseEnabled: false
-        value: Instrument.initPoint
+        value: Instrument.initPoint === NaN ? 0 : Instrument.initPoint
+        //value: test.value
         from: 0
         to: 1
         label: "Posicion:"

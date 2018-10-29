@@ -4,6 +4,8 @@ Instrument* Instrument::_instance = nullptr;
 
 Instrument::Instrument( QObject *parent ) : QObject( parent ) {
     _cpuLoad = 0;
+    _initPoint = 0;
+    _soundFile = "";
     _outputVolume = 1;
 }
 
@@ -24,8 +26,11 @@ double Instrument::initPoint( ) {
 QString Instrument::soundFile( ) {
     return _soundFile;
 }
-QVariantList Instrument::grainBuffer( ) {
-    return _grainBuffer;
+QVariantList Instrument::buffer( ) {
+    return _buffer;
+}
+double Instrument::gain( ) {
+    return _gain;
 }
 double Instrument::outputVolume( ) {
     return _outputVolume;
@@ -45,8 +50,12 @@ void Instrument::setSoundFile( QString value ) {
     _soundFile = value;
     Q_EMIT soundFileChanged( );
 }
-void Instrument::setGrainBuffer( ) {
-    Q_EMIT grainBufferChanged( );
+void Instrument::setBuffer( ) {
+    Q_EMIT bufferChanged( );
+}
+void Instrument::setGain( double value ) {
+    _gain = value;
+    Q_EMIT gainChanged( );
 }
 void Instrument::setOutputVolume( double value ) {
     _outputVolume = value;

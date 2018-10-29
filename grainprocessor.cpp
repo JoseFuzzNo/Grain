@@ -19,6 +19,8 @@ GrainProcessor::GrainProcessor( QtJack::Client& client, QObject *parent ) : QObj
     connect( &decoder, SIGNAL( error( QAudioDecoder::Error ) ), this, SLOT( decodingError( QAudioDecoder::Error ) ) );
 
     startTimer( 1000 );
+
+    oscillator.setSampleRate( client.sampleRate( ) );
 }
 
 void GrainProcessor::updateSoundFile( ) {
@@ -55,7 +57,7 @@ void GrainProcessor::transferSamples( ) {
 void GrainProcessor::decodingFinished( ) {
     // Se envia el buffer al instrumento.
     // El decoder se para solo, no hay nada mas que hacer.
-    Instrument::instance( )->setGrainBuffer( );
+    Instrument::instance( )->setBuffer( );
 }
 
 void GrainProcessor::decodingError( QAudioDecoder::Error error ) {
@@ -84,23 +86,45 @@ void GrainProcessor::decodingError( QAudioDecoder::Error error ) {
 }
 
 void GrainProcessor::process( int samples ) {
+    // Punteros a los buffers de salida
+    QtJack::AudioSample *outputL = static_cast<float*>( outL.buffer( samples ).internalMemory( ) );
+    QtJack::AudioSample *outputR = static_cast<float*>( outR.buffer( samples ).internalMemory( ) );
+
+    // Parametros de control
+    Instrument *instrument = Instrument::instance( );
+    double gain = instrument->gain( );
+    double outputVolume = instrument->outputVolume( );
+    double initPoint = instrument->initPoint( );
+
 
     // TEST
     // Se reproduce el buffer
 
-    double outputVolume = Instrument::instance( )->outputVolume( );
     static int phase = 0;
-    QtJack::AudioSample *outputL = static_cast<float*>( outL.buffer( samples ).internalMemory( ) );
+
     for ( int i = 0; i < samples; i++ ) {
         if ( grainBuffer->size( ) > phase ) {
             outputL[i] = grainBuffer->at( phase ).toFloat( );
-            outputL[i] *= outputVolume;
             phase++;
         } else {
             phase = 0;
         }
     }
-    Instrument::instance( )->setInitPoint( ( double )phase / (double)grainBuffer->size( ) );
+
+    if ( grainBuffer->size( ) != 0 )
+        instrument->setInitPoint( ( double )phase / (double)grainBuffer->size( ) );
+
+
+    oscillator.setFrequency( gain * 100 + 100 );
+    oscillator.getSamples( outputR, samples );
+
+
+
+    // Volumen de salida
+    for ( int i = 0; i < samples; i++ ) {
+        outputL[i] *= outputVolume;
+        outputR[i] *= outputVolume;
+    }
 }
 
 void GrainProcessor::timerEvent( QTimerEvent* ) {

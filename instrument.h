@@ -13,7 +13,8 @@ class Instrument : public QObject {
     Q_PROPERTY( double cpuLoad READ cpuLoad NOTIFY cpuLoadChanged )
     Q_PROPERTY( double initPoint READ initPoint WRITE setInitPoint NOTIFY initPointChanged )
     Q_PROPERTY( QString soundFile READ soundFile WRITE setSoundFile NOTIFY soundFileChanged )
-    Q_PROPERTY( QVariantList grainBuffer READ grainBuffer NOTIFY grainBufferChanged )
+    Q_PROPERTY( QVariantList buffer READ buffer NOTIFY bufferChanged )
+    Q_PROPERTY( double gain READ gain WRITE setGain NOTIFY gainChanged )
     Q_PROPERTY( double outputVolume READ outputVolume WRITE setOutputVolume NOTIFY outputVolumeChanged )
 
 public:
@@ -23,10 +24,11 @@ public:
     double cpuLoad( );
     double initPoint( );
     QString soundFile( );
-    QVariantList grainBuffer( );
+    QVariantList buffer( );
     inline QVariantList *grainBufferPointer( ) {
-        return &_grainBuffer;
+        return &_buffer;
     }
+    double gain( );
     double outputVolume( );
 
 public slots:
@@ -34,14 +36,16 @@ public slots:
     void setCpuLoad( double value );
     void setInitPoint( double value );
     void setSoundFile( QString value );
-    void setGrainBuffer( );
+    void setBuffer( );
+    void setGain( double value );
     void setOutputVolume( double value );
 
 signals:
     void cpuLoadChanged( );
     void initPointChanged( );
     void soundFileChanged( );
-    void grainBufferChanged( );
+    void bufferChanged( );
+    void gainChanged( );
     void outputVolumeChanged( );
 
 private:
@@ -51,7 +55,8 @@ private:
     double _cpuLoad;
     double _initPoint;
     QString _soundFile;
-    QVariantList _grainBuffer;
+    QVariantList _buffer;
+    double _gain;
     double _outputVolume;
 };
 

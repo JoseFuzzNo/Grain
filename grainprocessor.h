@@ -5,6 +5,7 @@
 #include <QAudioDecoder>
 #include <Processor>
 #include "instrument.h"
+#include "sineoscillator.h"
 
 class GrainProcessor :  public QObject, public QtJack::Processor {
     Q_OBJECT
@@ -31,6 +32,8 @@ private:
     QVariantList *grainBuffer;
 
     QAudioDecoder decoder;
+
+    SineOscillator oscillator;
 };
 
 #endif // GRAINPROCESSOR_H
