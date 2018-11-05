@@ -2,7 +2,7 @@
 #define SINEOSCILLATOR_H
 
 #include "oscillator.h"
-#include <QtMath>
+#include "math.h"
 
 class SineOscillator : public Oscillator {
 private:
@@ -22,6 +22,10 @@ public:
   void setFrequency( float freq ) {
       incr = freq * mul;
   }
+  /**
+   * @brief setPhase    Se fuerza la fase del oscilador.
+   * @param ph      Fase en radianes.
+   */
   void setPhase( float ph ) {
       phase = ph;
       while( phase >= 2 * M_PIf32 )
@@ -39,19 +43,6 @@ public:
       if( phase >= 2 * M_PIf32 )
           phase -= 2 * M_PIf32;
       return sample;
-  }
-  float getNextSample( float fm ) {
-      float sample = sinf( phase );
-      phase += incr + fm;
-    if( phase >= 2 * M_PIf32 )
-        phase -= 2 * M_PI;
-    return sample;
-  }
-  static SineOscillator* create( float sr ) {
-      return new SineOscillator( sr );
-  }
-  static void destroy( SineOscillator* osc ) {
-      delete osc;
   }
 };
 
