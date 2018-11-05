@@ -20,6 +20,8 @@ void Grain::setSpeed( float speed ) {
 void Grain::setInitPoint( float ip ) {
     if ( ip + grainSize > 1 ) {
         initPoint = 1 - grainSize;
+    } else if ( ip < 0 ) {
+        initPoint = 0;
     } else {
         initPoint = ip;
     }
@@ -28,6 +30,8 @@ void Grain::setGrainSize( float gs ) {
     // gs vale entre 0 y 1
     if ( initPoint + gs > 1 ) {
         grainSize = 1 - initPoint;
+    } else if ( gs < 0 ) {
+        grainSize = 0;
     } else {
         grainSize = gs;
     }
