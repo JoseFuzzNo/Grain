@@ -24,5 +24,6 @@
         <file>granular/Module.qml</file>
         <file>granular/SubModule.qml</file>
         <file>granular/Vibrato.qml</file>
+        <file>granular/Waveform.qml</file>
     </qresource>
 </RCC>

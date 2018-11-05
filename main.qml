@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
+import Qt.labs.settings 1.0
 
 import "audiocontrols" as AudioControls
 import "granular" as Granular
@@ -12,15 +13,23 @@ Window {
     height: 300
     color: "#333333"
     title: qsTr("Grain")
-
     minimumWidth: 440
     minimumHeight:  250
+
+    Settings {
+        property alias width: root.width
+        property alias height: root.height
+        property alias x: root.x
+        property alias y: root.y
+    }
 
     Granular.Granular {
         x: 10
         y: 10
 
-        grain: Instrument.buffer
+        grainR: Instrument.bufferR
+        grainL: Instrument.bufferL
+        progress: Instrument.playbackHeadPosition === NaN ? 0 : Instrument.playbackHeadPosition
 
         onStatusChanged: {
             switch ( message ) {
@@ -30,12 +39,18 @@ Window {
             case "soundFile":
                 Instrument.soundFile = value;
                 break;
-            case "gain":
-                Instrument.gain = value;
+            case "tune":
+                Instrument.tune = value;
+                break;
+            case "initPoint":
+                Instrument.initPoint = value;
+                break;
+            case "grainSize":
+                Instrument.grainSize = value;
                 break;
             }
 
-            //console.log( message + " " + value )
+            console.log( message + " " + value )
         }
     }
     AudioControls.Slider {
@@ -56,24 +71,4 @@ Window {
         secondColor: "#444444"
         thirdColor: "yellow"
     }
-    AudioControls.Slider {
-        mouseEnabled: false
-        value: Instrument.initPoint === NaN ? 0 : Instrument.initPoint
-        //value: test.value
-        from: 0
-        to: 1
-        label: "Posicion:"
-        units: "%"
-        decimals: 1
-
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.bottomMargin: 10
-        anchors.rightMargin: 10
-
-        color: "orange"
-        secondColor: "#444444"
-        thirdColor: "yellow"
-    }
-
 }

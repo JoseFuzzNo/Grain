@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-
+import "../audiocontrols" as AudioControls
 
 Item {
     id: root
@@ -23,10 +23,9 @@ Item {
     property bool mouseEnabled: true
     property double grainSize: 0    // De 0 a 1 en %
     property double showedGrainSize: grainSize
-    property var grain: []
-    onGrainChanged: {
-        waveformCanvas.requestPaint( );
-    }
+    property var grainL: []
+    property var grainR: []
+    property double progress: 0
 
     onGrainSizeChanged: {
         // Para prevenir que el punto final del grano vaya fuera del slider
@@ -93,51 +92,39 @@ Item {
             radius: 1
         }
 
-        Item {
-            id: waveform
-            anchors.fill: parent
-            Canvas {
-                id: waveformCanvas
-                anchors.fill: parent
-                antialiasing: true
-                onPaint: {
-                    var ctx = getContext( "2d" )
-                    ctx.reset( )
+        Waveform {
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height / 2
+            wave: root.grainL
+            color: root.thirdColor
+        }
+        Waveform {
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height / 2
+            wave: root.grainR
+            color: root.thirdColor
+        }
 
-
-                    ctx.strokeStyle = root.thirdColor
-                    ctx.beginPath( );
-
-                    // linea central
-                    //ctx.lineWidth = 0.1
-                    //ctx.moveTo( 0, height / 2 );
-                    //tx.lineTo( width, height / 2 );
-
-
-                    // forma de onda
-                    ctx.moveTo( 0, height / 2 );
-                    ctx.lineWidth = 1
-
-                    var pointsPerPixel = parseInt( grain.length / width );
-                    var max = 0;
-                    var min = 0;
-                    for ( var i = 0; i < width; i++ ) {
-                        var valuePlus = 0;
-                        var valueMinus = 0;
-                        for ( var j = i * pointsPerPixel; j < ( i + 1 ) * pointsPerPixel; j++ ) {
-                            if ( grain[j] > valuePlus )
-                                valuePlus = grain[j];
-                            if ( grain[j] < valueMinus )
-                                valueMinus = grain[j];
-                        }
-
-                        ctx.moveTo( i, ( 1 - valueMinus ) * height / 2 );
-                        ctx.lineTo( i, ( 1 - valuePlus ) * height / 2 );
-                    }
-                    ctx.stroke( )
-
-                }
+        Rectangle {
+            id: progressBar
+            opacity: 0.4
+            color: fourthColor
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height / 20
+            Rectangle {
+                color: root.thirdColor
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.top: parent.top
+                width: parent.width * root.progress
             }
+
         }
 
         MouseArea {
@@ -199,7 +186,7 @@ Item {
             width: 10
             height: parent.height
             x: contentItem.x - 5
-            //cursorShape: Qt.SizeHorCursor
+            cursorShape: Qt.SizeHorCursor
             property int mouseInit: 0
 
             onClicked: {
@@ -225,7 +212,7 @@ Item {
             width: 10
             height: parent.height
             x: contentItem.x + contentItem.width - 5
-            //cursorShape: Qt.SizeHorCursor
+            cursorShape: Qt.SizeHorCursor
 
             property int mouseInit: 0
 

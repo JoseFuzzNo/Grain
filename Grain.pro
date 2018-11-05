@@ -15,7 +15,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     instrument.cpp \
-    grainprocessor.cpp
+    grainprocessor.cpp \
+    engine/grain.cpp \
+    engine/wavetableoscillator.cpp \
+    engine/floatarray.cpp \
+    engine/audiobuffer.cpp
 INCLUDEPATH += engine
 
 RESOURCES += qml.qrc
@@ -38,7 +42,12 @@ HEADERS += \
     instrument.h \
     grainprocessor.h \
     engine/oscillator.h \
-    engine/sineoscillator.h
+    engine/sineoscillator.h \
+    engine/grain.h \
+    engine/window.h \
+    engine/wavetableoscillator.h \
+    engine/floatarray.h \
+    engine/audiobuffer.h
 
 OTHER_FILES = \
     README.md \

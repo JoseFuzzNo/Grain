@@ -11,8 +11,10 @@ Module {
     title: qsTr( "GRAIN" )
     //titleCheckEnabled: true
 
-    property var grain: []
+    property var grainL: []
+    property var grainR: []
     property double initPoint: 0
+    property double progress: 0
 
     function cleanUrl( url ) {
         return url.replace(/(^\w+:|^)\/\//, '');
@@ -54,18 +56,20 @@ Module {
 
 
     Audio.Knob {
-        id: gainKnob
+        id: tuneKnob
         x: 14
         y: 31
-        label: "Gain"
-        units: "dB"
+        label: "Tune"
+        units: "ct"
         //decimals: 1
-        from: 1
-        to: 200
-        curve: 5
+        from: -12
+        to: 12
+        steps: 24
+        curve: 0
+        mode: "centered"
         size: 30
         onValueChanged: {
-            statusChanged( "gain", value );
+            statusChanged( "tune", value );
         }
         color: root.mainColor
         secondColor: root.secondColor
@@ -80,6 +84,7 @@ Module {
         showValue: false
         stepSize: 0.01
         value: initPoint
+        progress: root.progress
         onValueChanged: {
             statusChanged( "initPoint", value );
         }
@@ -90,7 +95,8 @@ Module {
         color: mainColor
         secondColor: secondColor
         thirdColor: root.thirdColor
-        grain: root.grain
+        grainR: root.grainR
+        grainL: root.grainL
         DropArea {
             anchors.fill: parent
             onDropped: {
