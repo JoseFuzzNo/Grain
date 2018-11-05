@@ -101,6 +101,14 @@ void GrainProcessor::decodingError( QAudioDecoder::Error error ) {
     qDebug( msg.toLatin1( ) );
 }
 
+QtJack::AudioPort GrainProcessor::outputL( ) {
+    return outL;
+}
+
+QtJack::AudioPort GrainProcessor::outputR( ) {
+    return outR;
+}
+
 void GrainProcessor::process( int samples ) {
     // Punteros a los buffers de salida
     QtJack::AudioSample *outputL = static_cast<float*>( outL.buffer( samples ).internalMemory( ) );

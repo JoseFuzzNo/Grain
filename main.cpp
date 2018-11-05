@@ -18,7 +18,8 @@ int main( int argc, char *argv[] ) {
     GrainProcessor processor( client );
     client.setMainProcessor( &processor );
     client.activate( );
-    //client.connect(processor.outL, client.portByName("system:playback_1"));       // Conexion automatica con la salida del sistema
+    client.connect(processor.outputL( ), client.portByName("system:playback_1"));       // Conexion automatica con la salida del sistema
+    client.connect(processor.outputR( ), client.portByName("system:playback_2"));
 
     QQmlApplicationEngine engine;
     engine.rootContext( )->setContextProperty( "Instrument", Instrument::instance( ) );

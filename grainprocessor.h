@@ -38,6 +38,8 @@ public:
      * @param samples   Numero de samples necesarios para llenar el buffer.
      */
     void process( int samples );
+    QtJack::AudioPort outputL( );
+    QtJack::AudioPort outputR( );
 
 protected slots:
     /**
