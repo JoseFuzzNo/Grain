@@ -2,63 +2,69 @@ import QtQuick 2.0
 import Qt.labs.calendar 1.0
 import "../audiocontrols" as Audio
 
-Module {
+Item {
     id: root
 
     width: 420
     height: 184
 
-    title: qsTr( "GRAIN" )
-    //titleCheckEnabled: true
+    // COLORS
+    property color mainColor: "orange"
+    property color secondColor: "#444444"
+    property color thirdColor: "yellow"
+    property color fourthColor: "#393939"
+    property color backgroundColor: "#333333"
 
     property var grainL: []
     property var grainR: []
     property double initPoint: 0
     property double progress: 0
 
+    // SIGNALS
+    signal statusChanged( var message, var value )
+
+
     function cleanUrl( url ) {
         return url.replace(/(^\w+:|^)\/\//, '');
     }
 
-    onTitleCheckedChanged: {
-        statusChanged( "power", titleChecked );
-    }
+    /*Audio.Number2 {
+        id: voicesNumber
 
-    icon: Image {
-        source: "../img/grain.svg"
-    }
-    header1: Item {
-    }
-    header2: Item {
-        Audio.Number2 {
-            id: voicesNumber
+        color: root.mainColor
+        secondColor: root.backgroundColor
+        label: qsTr( "VOICES:" )
 
-            color: root.mainColor
-            secondColor: root.backgroundColor
-            label: qsTr( "VOICES:" )
+        height: 18
+        x: 125
+        y: 1
+       cornerShape: "square"
 
-            height: 18
-            x: 125
-            y: 1
-           cornerShape: "square"
+        stepSize: 0.05
+        from: 1
+        to: 4
+        digits: 1
 
-            stepSize: 0.05
-            from: 1
-            to: 4
-            digits: 1
-
-            onValueChanged: {
-                root.statusChanged( "voices", value );
-            }
-
+        onValueChanged: {
+            root.statusChanged( "voices", value );
         }
-    }
 
+    }*/
+
+    Rectangle {
+        id: background
+        color: root.backgroundColor
+        border.color: root.secondColor
+        radius: 2
+        anchors.fill: parent
+
+    }
 
     Audio.Knob {
         id: tuneKnob
-        x: 14
         y: 31
+        anchors.left: parent.left
+        anchors.leftMargin: 14
         label: "Tune"
         units: "ct"
         //decimals: 1
@@ -77,10 +83,7 @@ Module {
 
     Grain {
         id: grainSlider
-        y: 31
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: 287
-        height: 55
+        //width: 287
         showValue: false
         stepSize: 0.01
         value: initPoint
@@ -93,6 +96,14 @@ Module {
         }
 
         color: mainColor
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 98
+        anchors.top: parent.top
+        anchors.topMargin: 11
+        anchors.left: parent.left
+        anchors.leftMargin: 67
+        anchors.right: parent.right
+        anchors.rightMargin: 67
         secondColor: secondColor
         thirdColor: root.thirdColor
         grainR: root.grainR
@@ -107,8 +118,9 @@ Module {
 
     Audio.Knob {
         id: masterKnob
-        x: 366
         y: 31
+        anchors.right: parent.right
+        anchors.rightMargin: 14
         value: 0.5
         units: "dB"
         label: "Master"
@@ -120,68 +132,62 @@ Module {
         secondColor: secondColor
     }
 
-    ADSR {
-        x: 13
+    Row {
         y: 97
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 12
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: 10
+        ADSR {
 
-        mainColor: root.mainColor
-        secondColor: root.secondColor
-        thirdColor: root.thirdColor
-        fourthColor: root.fourthColor
+            mainColor: root.mainColor
+            secondColor: root.secondColor
+            thirdColor: root.thirdColor
+            fourthColor: root.fourthColor
 
-        editMode: root.editMode
-
-        onStatusChanged: {
-            root.statusChanged( message, value );
-        }
-    }
-
-    Filter {
-        x: 183
-        y: 97
-
-        mainColor: root.mainColor
-        secondColor: root.secondColor
-        thirdColor: root.thirdColor
-        fourthColor: root.fourthColor
-
-        editMode: root.editMode
-
-        onStatusChanged: {
-            root.statusChanged( message, value );
-        }
-    }
-
-    Vibrato {
-        x: 273
-        y: 97
-
-        mainColor: root.mainColor
-        secondColor: root.secondColor
-        thirdColor: root.thirdColor
-        fourthColor: root.fourthColor
-
-        editMode: root.editMode
-
-        onStatusChanged: {
-            root.statusChanged( message, value );
+            onStatusChanged: {
+                root.statusChanged( message, value );
+            }
         }
 
-    }
+        Filter {
+            mainColor: root.mainColor
+            secondColor: root.secondColor
+            thirdColor: root.thirdColor
+            fourthColor: root.fourthColor
 
-    Glide {
-        x: 363
-        y: 97
-
-        mainColor: root.mainColor
-        secondColor: root.secondColor
-        thirdColor: root.thirdColor
-        fourthColor: root.fourthColor
-
-        editMode: root.editMode
-
-        onStatusChanged: {
-            root.statusChanged( message, value );
+            onStatusChanged: {
+                root.statusChanged( message, value );
+            }
         }
+
+        Vibrato {
+            mainColor: root.mainColor
+            secondColor: root.secondColor
+            thirdColor: root.thirdColor
+            fourthColor: root.fourthColor
+
+            onStatusChanged: {
+                root.statusChanged( message, value );
+            }
+
+        }
+
+        Glide {
+            mainColor: root.mainColor
+            secondColor: root.secondColor
+            thirdColor: root.thirdColor
+            fourthColor: root.fourthColor
+
+            onStatusChanged: {
+                root.statusChanged( message, value );
+            }
+        }
+
     }
 }
+
+/*##^## Designer {
+    D{i:21;anchors_height:75;anchors_y:11}
+}
+ ##^##*/

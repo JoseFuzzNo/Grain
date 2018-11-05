@@ -62,7 +62,7 @@ Item {
             anchors.fill: parent
             color: secondColor
             //border.color: "#2b2b2b"
-            radius: 1
+            //radius: 1
         }
 
         Rectangle {
@@ -89,7 +89,7 @@ Item {
             //height: root.height * ( root.value  - from ) / ( to - from )
 
             color: root.color
-            radius: 1
+            //radius: 1
         }
 
         Waveform {
@@ -225,9 +225,11 @@ Item {
 
                     var dx = mouseX - mouseInit
                     var auxGrainSize = grainSize + ( dx / root.width );
-                    if ( auxGrainSize > 1 - ( value  - root.from ) / ( root.to - root.from ) )
+                    if ( auxGrainSize < 0 ) {
+                        auxGrainSize = 0;
+                    } else if ( auxGrainSize > 1 - ( value  - root.from ) / ( root.to - root.from ) ) {
                         auxGrainSize = 1 - ( value  - root.from ) / ( root.to - root.from );
-
+                    }
                     grainSize = auxGrainSize;
                 }
             }

@@ -24,8 +24,14 @@ Window {
     }
 
     Granular.Granular {
-        x: 10
-        y: 10
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 50
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        anchors.right: parent.right
+        anchors.rightMargin: 10
 
         grainR: Instrument.bufferR
         grainL: Instrument.bufferL
@@ -53,6 +59,7 @@ Window {
             console.log( message + " " + value )
         }
     }
+
     AudioControls.Slider {
         mouseEnabled: false
         value: Instrument.cpuLoad
@@ -72,3 +79,8 @@ Window {
         thirdColor: "yellow"
     }
 }
+
+/*##^## Designer {
+    D{i:2;anchors_x:10;anchors_y:10}
+}
+ ##^##*/
