@@ -25,12 +25,10 @@ GrainProcessor::GrainProcessor( QtJack::Client& client, QObject *parent ) :
     bufferSize = 0;
 
 
-    grainL = new Grain( client.sampleRate( ) );
-    grainR = new Grain( client.sampleRate( ) );
-    grainL->setBuffer( grainBuffer.getSamples( 0 ), bufferSize );
-    grainR->setBuffer( grainBuffer.getSamples( 1 ), bufferSize );
-
-
+    grainOscillatorL = new GrainOscillator<GRAIN_COUNT>( client.sampleRate( ) );
+    grainOscillatorR = new GrainOscillator<GRAIN_COUNT>( client.sampleRate( ) );
+    grainOscillatorL->setBuffer( grainBuffer.getSamples( 0 ), bufferSize );
+    grainOscillatorR->setBuffer( grainBuffer.getSamples( 1 ), bufferSize );
 }
 
 void GrainProcessor::updateSoundFile( ) {
@@ -72,8 +70,8 @@ void GrainProcessor::decodingFinished( ) {
     // Se envia el buffer al instrumento.
     // El decoder se para solo, no hay nada mas que hacer.
     Instrument::instance( )->setBuffer( grainBuffer, bufferSize );
-    grainL->setBuffer( grainBuffer.getSamples( 0 ), bufferSize );
-    grainR->setBuffer( grainBuffer.getSamples( 1 ), bufferSize );
+    grainOscillatorL->setBuffer( grainBuffer.getSamples( 0 ), bufferSize );
+    grainOscillatorR->setBuffer( grainBuffer.getSamples( 1 ), bufferSize );
 }
 
 void GrainProcessor::decodingError( QAudioDecoder::Error error ) {
@@ -125,15 +123,16 @@ void GrainProcessor::process( int samples ) {
 
 
     //Grain
-    grainL->setInitPoint( initPoint );
-    grainL->setGrainSize( grainSize );
-    grainL->setSpeed( pow( 2, tune / 12 ) );
-    grainR->setInitPoint( initPoint );
-    grainR->setGrainSize( grainSize );
-    grainR->setSpeed( pow( 2, tune / 12 ) );
+    grainOscillatorL->setInitPoint( initPoint );
+    grainOscillatorL->setGrainSize( grainSize );
+    grainOscillatorL->setSpeed( pow( 2, tune / 12 ) );
+    grainOscillatorR->setInitPoint( initPoint );
+    grainOscillatorR->setGrainSize( grainSize );
+    grainOscillatorR->setSpeed( pow( 2, tune / 12 ) );
+
     for ( int i = 0; i < samples; i++ ) {
-        outputL[i] = grainL->getNextSample( );
-        outputR[i] = grainR->getNextSample( );
+        outputL[i] = grainOscillatorL->getNextSample( );
+        outputR[i] = grainOscillatorR->getNextSample( );
     };
 
 

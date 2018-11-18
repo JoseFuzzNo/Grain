@@ -12,19 +12,17 @@ class Grain : public Oscillator {
 private:
     float sampleRate;
     float mul;
-    float phase;
+    double phase;
     float incr;
     FloatArray buffer;
     float bufferSize;
     float initPoint;
     float grainSize;
 
-protected:
+public:
     void setFrequency( float freq ) {
         incr = freq * mul;
     }
-
-public:
     Grain( float sr );
     void setBuffer( const FloatArray buffer, float size );
     void setSampleRate( float sr );

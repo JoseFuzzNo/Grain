@@ -17,7 +17,6 @@ SOURCES += \
     instrument.cpp \
     grainprocessor.cpp \
     engine/grain.cpp \
-    engine/wavetableoscillator.cpp \
     engine/floatarray.cpp \
     engine/audiobuffer.cpp
 INCLUDEPATH += engine
@@ -45,9 +44,9 @@ HEADERS += \
     engine/sineoscillator.h \
     engine/grain.h \
     engine/window.h \
-    engine/wavetableoscillator.h \
     engine/floatarray.h \
-    engine/audiobuffer.h
+    engine/audiobuffer.h \
+    engine/grainoscillator.h
 
 OTHER_FILES = \
     README.md \

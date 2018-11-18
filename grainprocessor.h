@@ -9,8 +9,11 @@
 #include "sineoscillator.h"
 #include "wavetableoscillator.h"
 #include "grain.h"
+#include "grainoscillator.h"
 #include "floatarray.h"
 #include "audiobuffer.h"
+
+#define GRAIN_COUNT     5
 
 /**
  * @brief Clase de gestion del procesador de audio.
@@ -28,8 +31,8 @@ private:
 
     QAudioDecoder decoder;
 
-    Grain *grainL;
-    Grain *grainR;
+    GrainOscillator<GRAIN_COUNT> *grainOscillatorL;
+    GrainOscillator<GRAIN_COUNT> *grainOscillatorR;
 
 public:
     explicit GrainProcessor( QtJack::Client& client, QObject *parent = nullptr );
